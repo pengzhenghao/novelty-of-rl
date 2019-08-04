@@ -49,9 +49,7 @@
 
 
 
-### Modification for Online-learning
 
-* However, the "distrubition shift" is happen when using the online-learning algorithm like PPO.
 
 
 
@@ -87,6 +85,28 @@
 
 
 ## Conclusion
+
+
+
+
+
+### Future: Modification for online learning
+
+* To caucluate the novelty, the replay buffer of old policy is used.
+
+* This is not a online-learning fashion.
+* It takes large memory and is the bottleneck of computing gradient.
+
+* I can't find a way toward online-learning:
+  1. $\nabla L_{nvt} = -E_{(s,a)\sim P_{\pi_{old}}}[\cfrac{\nabla \pi_{new}(a,s)}{\pi(a,s)}]$
+  2. $\nabla L_{nvt} = -E_{(s,a)\sim P_{\pi_{new}}}[\cfrac{P_{\pi_{old}}}{P_{\pi_{new}}}\cdot\cfrac{\nabla \pi_{new}(a,s)}{\pi(a,s)}]$, changed the sample distrubition
+  3. $P_\pi (a, s) = \pi(a|s)\cdot P(s)$, Conditional Probability Equation
+  4. (2) becomes: $\nabla L_{nvt} = -E_{(s,a)\sim P_{\pi_{new}}}[\cfrac{P_{\pi_{old}}(s)}{P_{\pi_{new}}(s)}\cdot \cfrac{\pi_{old}(a|s)}{\pi_{new}(a|s)}\cdot\cfrac{\nabla \pi_{new}(a,s)}{\pi(a,s)}]$
+  5. The probability of a given state $s$ can not be cauculated. Q.E.D.
+
+
+
+
 
 
 
