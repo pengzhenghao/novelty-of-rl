@@ -9,22 +9,24 @@
 ## Motivation
 
 * Given two policies: $\pi_1, \pi_2$, which are both functions $a= \pi_{\theta}(action|state)$, how to evaluate the **novelty** or say the **difference** of them?
-* Provided a given policy, how to train/guide the training algorithm to **train** a novel policy?
+* Given a policy, how to train/guide the training algorithm to **train** a novel policy?
 
 
 
-* [learning] use the **reconstrcution error** of a trained auto encoder for policy $\pi_1$ to evaluate how novel the policy $\pi_2$ is.
+* [learning] use the **reconstrcution error** of an auto-encoder trained from policy $\pi_1$ when evaluating on policy $\pi_2$ to serve as the "novelty metric".
   * The auto encoder may fails to capture large state/action spaces
-  * The reconstruction error is not so "intuitive" as a metic, because so many factors may affect it
-  * Training the auto encoder itself is also computational expensive
+  * The reconstruction error is not so "natural" as a metic, because so many factors may affect it
+  * Training the auto encoder itself is also computational expensive and not reliable
 
 
 
 - [uber] use the embedding of the **state sequence** as some sort of "policy representation"
 
   - $Embedding_{policy} = f(s_1, s_2, …, s_n)$
-  - Can we use both the state and action produced by the policy to depict a policy?
-
+  - Can we use both the state and action produced by the policy to depict a policy? 
+- Namely $Embedding_{policy} = f(s_1, a_1, s_2, …, s_n, a_n)$
+  - That is because a state sequence may not imply a fixed action sequence, when the environment is stochastic.
+  
   
 
 * KL Divergence is really famous and useful tool to demonstrate the **difference** of two distrubition,
@@ -40,8 +42,9 @@
 
 * Given a policy $\pi$, define experience replay buffer: $R(\pi) = \{(s, a)\sim P\pi\}$
 * Define KL divergence for two policy $\pi_1, \pi_2$:
-  * $KL(\pi_1||\pi_2) =  \mathbb{E}_{(s, a)\sim R(\pi_1)}[\log \cfrac{\pi_1(a|s)}{\pi_2 (a|s)}]$
+  * $KL(\pi_1||\pi_2) =  \mathbb{E}_{(s, a)\sim R(\pi_1)}[\log \cfrac{\pi_1(a|s)}{\pi_2 (a|s)}] = KL(\pi_1||\pi_2) =  \mathbb{E}_{(s, a)\sim R(\pi_1)}[\log \pi_1(a|s) - \log \pi_2 (a|s)]$
   * We can name it with new name ~
+  * Most important factor is we sample (s, a) from "**old policy replay buffer**"
   
 
 
@@ -140,6 +143,11 @@
 
 
 ## Conclusion
+
+* I doubt somebody may have done this, since it sound really natural
+* It's a good way to encourage "exploration"
+
+
 
 ### Future: Modification for online learning
 
