@@ -2,11 +2,7 @@
 
 :fountain_pen: Peng Zhenghao
 
-:spiral_calendar: August, 2019
-
-
-
-** THIS ARTICLE IS NOT FINISHED YET **
+:spiral_calendar: August 4, 2019
 
 
 
@@ -67,6 +63,18 @@
 
 
 
+### Mocking Curiosity-driven Learning
+
+* [curiosity] argues that curiosity as the only reward can also lead to great performance
+* It use $||f(s_t, a_t) - s_{t+1}||^2$ as the reward, wherein f is a function predicting the next state $s_{t+1}$
+* Define a new curiosity:
+  * $KL(\pi_{i}||\pi_{i+1})$, wherein $i$ denotes the training iteration
+  * Use $L_{nvt}$ defined above as the **only** loss
+  * Then the training is complelty **offline** and only need dataset $R(\pi_i)=\{(s^{\pi_i}_t, a^{\pi_i}_t)\}$
+* It should work for those environments which curiosity-driven learning work.
+
+
+
 ## Experiment Design & Expected Results
 
 ### Experiment 1: Convergence
@@ -100,32 +108,38 @@
 
 
 
-:warning: ​ It should be note that the Exp1 & 2 require no training, given a pretrained agent to serve as the $\pi_{old}$ .
+* :warning: ​ It should be note that the Exp1 & 2 require no training, given a pretrained agent to serve as the $\pi_{old}$.
 
 
 
 ### Experiment 3: Optimization
 
-** WAIT FOR MORE CONTENT **
-
-* **Goal**: verify if the extra **novelty loss** can help boost novelty
+* **Goal**: verify if the extra **novelty loss** can help boost novelty / performance
 * **Subjects**:
   1. A pretrained agent
   2. An agent trained with novelty loss (*hyper-param: weights of two loss*)
-  3. ...
+* **Potential Figures**:
+  1. Figure: novelty vs total reward
 * **Expected Results**:
+  1. (High Probability) As novelty grows, total reward keep steady
+  2. (Medium Probability) As novelty grows, total reward grows
 
-  ...
+* :warning: Accroding to [curiosity] and [soft ac], encouraging diverse observations lead to **robustness** and **better performance**. — That is what we call **exploration**
+
+
+
+### Experiment 4: Compare to Curiosity-driven Learning
+
+* **Goals**: verify if KL can be used in curiosity-driven learning framework
+* **Potential Figures**:
+  1. Figure: training curve of KL
+  2. Figure: training curve of curiosity-driven learning
+  3. Figure: training curve of baseline (external reward)
+  4. Figure: training curve of KL + external reward
 
 
 
 ## Conclusion
-
-### Future: The Curiosity
-
-...
-
-
 
 ### Future: Modification for online learning
 
@@ -148,3 +162,7 @@
 [learning] : Learning Novel Policies for Tasks
 
 [uber] : Creating a Zoo of Atari-Playing Agents to Cataly Understanding of Deep Reinforcement Learning
+
+[curiosity] : Large-Scale Study of Curiosity-Driven Learning (ICLR'19)
+
+[soft ac] : Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor *(Add a entropy term in Q function)*
